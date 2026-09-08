@@ -20,9 +20,12 @@ jobs:
           flutter-version: '3.35.2'
           channel: stable
           cache: true
-
+          
       - name: Create Flutter Android project
         run: flutter create --platforms=android .
+
+      - name: Enable Android internet permission
+        run: grep -q 'android.permission.INTERNET' android/app/src/main/AndroidManifest.xml || sed -i '/<manifest/a\    <uses-permission android:name="android.permission.INTERNET" />' android/app/src/main/AndroidManifest.xml
 
       - name: Remove default test
         run: rm -rf test
