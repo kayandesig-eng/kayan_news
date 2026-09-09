@@ -694,7 +694,7 @@ class _HomePageState extends State<HomePage> {
             boxShadow: [
               BoxShadow(
                 blurRadius: 15,
-                color: Colors.black.withOpacity(.25),
+                color: Colors.black.withValues(alpha: 0.25),
               ),
             ],
           ),
@@ -720,7 +720,7 @@ class _HomePageState extends State<HomePage> {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      Colors.black.withOpacity(.85),
+                      Colors.black.withValues(alpha: 0.85),
                     ],
                   ),
                 ),
@@ -915,7 +915,7 @@ class NewsCard extends StatelessWidget {
             color: const Color(0xFF101C23),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: Colors.white.withOpacity(.05),
+              color: Colors.white.withValues(alpha: 0.05),
             ),
           ),
           child: Row(
