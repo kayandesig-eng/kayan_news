@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(const KayanNewsApp());
@@ -849,33 +850,60 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildAccountPage() {
+    final User? user = FirebaseAuth.instance.currentUser;
+    final bool isAdmin = user != null && user.email == 'kayandesig@gmail.com';
+
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const CircleAvatar(
-            radius: 40,
-            child: Icon(
-              Icons.person,
-              size: 45,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircleAvatar(
+              radius: 40,
+              child: Icon(
+                Icons.person,
+                size: 45,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'KAYAN NEWS',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 20),
+            const Text(
+              'KAYAN NEWS',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'منصة إخبارية عربية',
-            style: TextStyle(
-              color: Colors.grey.shade400,
+            const SizedBox(height: 8),
+            Text(
+              user != null ? 'الحساب: ${user.email}' : 'منصة إخبارية عربية',
+              style: TextStyle(
+                color: Colors.grey.shade400,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+
+            // ** زر الأدمن الحصري الذي يظهر لك وحدك **
+            if (isAdmin) ...[
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF35D5C4),
+                  foregroundColor: Colors.black,
+                ),
+                icon: const Icon(Icons.admin_panel_settings),
+                label: const Text('لوحة تحكم الأدمن (إضافة/تعديل الأخبار)'),
+                onPressed: () {
+                  // مكان إضافة شاشة التحكم أو ربطها بقاعدة البيانات لاحقاً
+                },
+              ),
+            ] else ...[
+              const Text(
+                'تسجيل الدخول متاح للمسؤول فقط',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
