@@ -1,43 +1,37 @@
-name: Build Kayan News APK
+name: Build Flutter APK
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.35.2'
-          channel: stable
-          cache: true
-          
-      - name: Create Flutter Android project
-        run: flutter create --platforms=android .
-
-      - name: Enable Android internet permission
-        run: grep -q 'android.permission.INTERNET' android/app/src/main/AndroidManifest.xml || sed -i '/<manifest/a\    <uses-permission android:name="android.permission.INTERNET" />' android/app/src/main/AndroidManifest.xml
-
-      - name: Remove default test
-        run: rm -rf test
+          flutter-version: '3.19.x' # يمكنك مطابقة إصدار الفلاتر لديك
+          channel: 'stable'
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --debug
 
-      - name: Upload APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kayan-news-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: app-debug
+          path: build/app/outputs/flutter-apk/app-debug.apk
