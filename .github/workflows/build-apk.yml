@@ -29,6 +29,8 @@ jobs:
 
       - name: Build APK
         run: flutter build apk --debug --no-pub
+        env:
+          FLUTTER_SUPPRESS_ANALYTICS: "true"
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
