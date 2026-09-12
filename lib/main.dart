@@ -5,6 +5,8 @@ import 'package:xml/xml.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'core/theme/app_theme.dart';
+
 void main() {
   runApp(const KayanNewsApp());
 }
@@ -17,16 +19,10 @@ class KayanNewsApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'KAYAN NEWS',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        useMaterial3: true,
-        fontFamily: 'Arial',
-        scaffoldBackgroundColor: const Color(0xFF081017),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF35D5C4),
-          brightness: Brightness.dark,
-        ),
-      ),
+
+      // الهوية البصرية الموحدة للتطبيق
+      theme: AppTheme.dark(),
+
       home: const HomePage(),
     );
   }
@@ -405,10 +401,10 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+
+      // يعتمد الآن على NavigationBarTheme الموجود في AppTheme
       bottomNavigationBar: NavigationBar(
         selectedIndex: bottomIndex,
-        backgroundColor: const Color(0xFF0B151C),
-        indicatorColor: const Color(0xFF183D3A),
         onDestinationSelected: (index) {
           setState(() {
             bottomIndex = index;
@@ -745,7 +741,8 @@ class _HomePageState extends State<HomePage> {
                         borderRadius:
                             BorderRadius.circular(20),
                       ),
-                      child: Text(
+                      child:
+                      Text(
                         article.category,
                         style: const TextStyle(
                           color: Colors.black,
@@ -851,7 +848,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildAccountPage() {
     final User? user = FirebaseAuth.instance.currentUser;
-    final bool isAdmin = user != null && user.email == 'kayandesig@gmail.com';
+    final bool isAdmin =
+        user != null && user.email == 'kayandesig@gmail.com';
 
     return Center(
       child: Padding(
@@ -876,30 +874,40 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 8),
             Text(
-              user != null ? 'الحساب: ${user.email}' : 'منصة إخبارية عربية',
+              user != null
+                  ? 'الحساب: ${user.email}'
+                  : 'منصة إخبارية عربية',
               style: TextStyle(
                 color: Colors.grey.shade400,
               ),
             ),
             const SizedBox(height: 20),
 
-            // ** زر الأدمن الحصري الذي يظهر لك وحدك **
+            // زر الأدمن الحصري
             if (isAdmin) ...[
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF35D5C4),
+                  backgroundColor:
+                      const Color(0xFF35D5C4),
                   foregroundColor: Colors.black,
                 ),
-                icon: const Icon(Icons.admin_panel_settings),
-                label: const Text('لوحة تحكم الأدمن (إضافة/تعديل الأخبار)'),
+                icon: const Icon(
+                  Icons.admin_panel_settings,
+                ),
+                label: const Text(
+                  'لوحة تحكم الأدمن (إضافة/تعديل الأخبار)',
+                ),
                 onPressed: () {
-                  // مكان إضافة شاشة التحكم أو ربطها بقاعدة البيانات لاحقاً
+                  // سيتم ربط لوحة التحكم بقاعدة البيانات لاحقاً
                 },
               ),
             ] else ...[
               const Text(
                 'تسجيل الدخول متاح للمسؤول فقط',
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
               ),
             ],
           ],
@@ -909,7 +917,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-/* =========================================================
+/*
+=========================================================
    بطاقة الخبر
    ========================================================= */
 
@@ -1068,7 +1077,8 @@ class NewsCard extends StatelessWidget {
   }
 }
 
-/* =========================================================
+/* 
+=========================================================
    صفحة تفاصيل الخبر
    ========================================================= */
 
