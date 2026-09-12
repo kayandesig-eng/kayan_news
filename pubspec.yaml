@@ -1,5 +1,5 @@
 name: kayan_news
-description: تطبيق إخباري عربي احترافي للأخبار المحلية والعربية والعالمية.
+description: احترافي الأخبار المحلية والعربية والعالمية
 publish_to: 'none'
 version: 1.1.0+2
 
@@ -10,10 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   cupertino_icons: ^1.0.8
   http: ^1.6.0
   xml: ^6.5.0
   url_launcher: ^6.3.1
+
+  # Firebase
+  firebase_core: ^4.7.0
+  firebase_auth: ^6.4.0
 
 dev_dependencies:
   flutter_test:
